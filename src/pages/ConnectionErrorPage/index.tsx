@@ -1,6 +1,7 @@
 import { Box, Typography } from '@mui/material';
+import { FC } from 'react';
 
-export const ConnectionErrorPage: React.FC = () => {
+export const ConnectionErrorPage: FC = () => {
   return (
     <Box
       sx={{

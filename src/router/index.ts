@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import {
   ConnectionErrorPage,
-  ErrorPage,
+  NotFoundPage,
   HomePage,
   RepositoryDetailsPage,
 } from '../pages';
@@ -18,7 +18,7 @@ export const router = createBrowserRouter([
         Component: RepositoryDetailsPage,
       },
       { path: '/connection-error', Component: ConnectionErrorPage },
-      { path: '/*', Component: ErrorPage },
+      { path: '/*', Component: NotFoundPage },
     ],
   },
 ]);

@@ -1,4 +1,4 @@
 export { HomePage } from './HomePage';
-export { ErrorPage } from './ErrorPage';
+export { NotFoundPage } from './NotFoundPage';
 export { RepositoryDetailsPage } from './RepositoryDetailsPage';
 export { ConnectionErrorPage } from './ConnectionErrorPage';

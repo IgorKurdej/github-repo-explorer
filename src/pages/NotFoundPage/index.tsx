@@ -1,8 +1,8 @@
-import React from 'react';
 import { Box, Button, Typography } from '@mui/material';
+import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export const ErrorPage: React.FC = () => {
+export const NotFoundPage: FC = () => {
   const navigate = useNavigate();
 
   const handleGoHome = () => {

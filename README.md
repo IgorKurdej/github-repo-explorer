@@ -5,5 +5,5 @@ inside create variable
 VITE_GITHUB_TOKEN=xxx (i'll send you token via email)
 
 then
-npm i
+npm i,
 npm run dev

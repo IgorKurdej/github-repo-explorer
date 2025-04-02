@@ -8,7 +8,7 @@ import {
   IRepositoryResponse,
   IRepositoryVariables,
 } from '../../types';
-import { Typography, Divider, Container, Button } from '@mui/material';
+import { Typography, Divider, Container, Button, Box } from '@mui/material';
 
 export const RepositoryDetailsPage: FC = () => {
   const { repoName } = useParams();
@@ -52,12 +52,22 @@ export const RepositoryDetailsPage: FC = () => {
 
   return (
     <Container maxWidth='md'>
-      <Button variant='contained' onClick={() => navigate('/')} sx={{ mb: 2 }}>
-        Powrót
-      </Button>
-      <Typography variant='h4' gutterBottom sx={{ wordBreak: 'break-word' }}>
-        {repository.name}
-      </Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap-reverse',
+          gap: '6px',
+        }}
+      >
+        <Typography variant='h4' gutterBottom sx={{ wordBreak: 'break-word' }}>
+          {repository.name}
+        </Typography>
+        <Button variant='contained' onClick={() => navigate('/')}>
+          Powrót
+        </Button>
+      </Box>
       <Typography
         variant='body1'
         color='textSecondary'

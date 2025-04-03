@@ -7,6 +7,7 @@ import {
 import { IGithubUser } from '../../types';
 import { Container } from '@mui/material';
 import { GithubUserContext } from '../../contexts';
+import { useSelectedUser } from '../../hooks';
 
 const DEFAULT_USER = {
   login: 'IgorKurdej',
@@ -15,10 +16,11 @@ const DEFAULT_USER = {
 };
 
 export const HomePage: FC = () => {
-  const [selectedUser, setSelectedUser] = useState<IGithubUser | null>(() => {
-    const savedUser = localStorage.getItem('selectedGithubUser');
-    return savedUser ? JSON.parse(savedUser) : DEFAULT_USER;
-  });
+  const savedSelectedUser = useSelectedUser();
+
+  const [selectedUser, setSelectedUser] = useState<IGithubUser | null>(
+    savedSelectedUser || DEFAULT_USER
+  );
 
   useEffect(() => {
     if (selectedUser) {

@@ -1,42 +1,26 @@
-import { useQuery } from '@apollo/client';
-import { FC, useMemo } from 'react';
+import { FC } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { GET_REPOSITORY_DETAILS } from '../../graphql/queries';
 import { ErrorAlert, ListOfCommits, Loader } from '../../components';
-import {
-  IGithubUser,
-  IRepositoryResponse,
-  IRepositoryVariables,
-} from '../../types';
 import { Typography, Divider, Container, Button, Box } from '@mui/material';
+import { useRepositoryCommits, useSelectedUser } from '../../hooks';
 
 export const RepositoryDetailsPage: FC = () => {
   const { repoName } = useParams();
   const navigate = useNavigate();
 
-  const selectedUser: IGithubUser | null = useMemo(() => {
-    const selectedGithubUser = localStorage.getItem('selectedGithubUser');
+  const selectedUser = useSelectedUser();
 
-    if (!selectedGithubUser) {
-      navigate('/');
-      return null;
-    }
+  const {
+    data,
+    loading,
+    error,
+    commits,
+    hasNextPage,
+    loadingMore,
+    loadMoreCommits,
+  } = useRepositoryCommits(selectedUser?.login || '', repoName || '', 10);
 
-    return JSON.parse(selectedGithubUser);
-  }, [navigate]);
-
-  const { data, loading, error } = useQuery<
-    IRepositoryResponse,
-    IRepositoryVariables
-  >(GET_REPOSITORY_DETAILS, {
-    variables: {
-      owner: selectedUser?.login || '',
-      name: repoName!,
-    },
-    skip: !selectedUser || !repoName,
-  });
-
-  if (loading) {
+  if (loading && !loadingMore) {
     return <Loader />;
   }
 
@@ -45,7 +29,7 @@ export const RepositoryDetailsPage: FC = () => {
   }
 
   if (!data || !data.repository) {
-    return <Typography>Nie znaleziono repozytorium</Typography>;
+    return <ErrorAlert message='Nie znaleziono repozytorium' />;
   }
 
   const { repository } = data;
@@ -89,7 +73,10 @@ export const RepositoryDetailsPage: FC = () => {
         Ostatnie commity:
       </Typography>
       <ListOfCommits
-        commits={repository.defaultBranchRef?.target?.history.nodes || []}
+        commits={commits}
+        onLoadMore={loadMoreCommits}
+        hasNextPage={hasNextPage}
+        loading={loadingMore}
       />
     </Container>
   );
